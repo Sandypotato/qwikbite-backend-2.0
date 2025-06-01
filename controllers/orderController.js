@@ -2,17 +2,22 @@ import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe";
 
+import mongoose from "mongoose";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+
 
 // placing user order for frontend
 const placeOrder = async (req, res) => {
-  const frontend_url = "https://qwikbite-ffrontend.onrender.com";
+  const frontend_url = "https://qwikbite-frontend.onrender.com"; // Change this to your frontend URL
+  const numOrders = await orderModel.countDocuments({});
   try {
     const newOrder = new orderModel({
       userId: req.body.userId,
       items: req.body.items,
       amount: req.body.amount,
       address: req.body.address,
+      orderId: `${numOrders + 1}`,
     });
     await newOrder.save();
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
