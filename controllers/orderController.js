@@ -6,7 +6,7 @@ import Stripe from "stripe";
 
 // placing user order for frontend
 const placeOrder = async (req, res) => {
-  const frontend_url = "https://qwikbite-frontend.onrender.com";
+  const frontend_url = "https://qwikbite-frontend.vercel.app";
   try {
     const newOrder = new orderModel({
       userId: req.body.userId,
